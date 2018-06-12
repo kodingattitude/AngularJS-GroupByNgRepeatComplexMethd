@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html ng-app="groupbynestedngrepeatfunctionality">
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJS - Nested ng-repeat Functionality</title>
+    <!--The Order Of The Links Should Be As Below-->
+    <!--The Below 3 Links Are For Bootsrap Effects, In This Case We Are Using For Modal Popup-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--The Below Link Is For AngularJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
+    <!-- The Below Link Is For Filters To Use-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-filter/0.4.7/angular-filter.js"></script>
+    <script src="index.js"></script>
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+</head>
+<body ng-controller="GroupByNestedNgRepeatController">
+    <div class="form-group container">
+        <div class="row">
+            <h3>AngularJS - Group By Multiple Elements</h3>
+        </div>
+        
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Item Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="ItemDetails.length!=0" ng-repeat="(key,value) in ItemDetails | groupBy: '[TransactionId,  ItemCategory]'">
+                            <td>{{key.split(',')[0]}}</td>
+                            <td>{{key.split(',')[1]}}</td>
+                            <td>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Code</th>
+                                            <th>Item Name</th>
+                                            <th>Item Old Price</th>
+                                            <th>Item New Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-show="ItemDetails.length!=0" ng-repeat="item in value">
+                                        <td>{{ item.ItemCode}}</td>
+                                        <td>{{ item.ItemName}}</td>
+                                        <td>{{ item.ItemOldPrice}}</td>
+                                        <td>{{ item.ItemNewPrice}}</td>
+                                    </tr>
+
+                                    <tr ng-show="ItemDetails.length==0" style="text-align:center;font-size:xx-large;color:lightgrey;font:bold 400% arial, verdana;">
+                                        <td>
+                                            No Records Found
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td><button type="button" data-toggle="modal" data-target="#selectedgroup" ng-click="SelectedTransactionId(value)">Display</button></td>
+                        </tr>
+
+                        <tr ng-show="ItemDetails.length==0" style="text-align:center;font-size:xx-large;color:lightgrey;font:bold 400% arial, verdana;">
+                            <td>
+                                No Records Found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Popup-->
+    <div class="modal fade" id="selectedgroup" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
+                    <div class="modal-body">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="groupModalLabel">Selected Item Details</h4>
+                            </div>
+                           <div class="modal-body">
+                                <form>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction Id</th>
+                                                <th>Item Cateogry</th>
+                                                <th>Item Code</th>
+                                                <th>Item Name</th>
+                                                <th>Item Old Price</th>
+                                                <th>Item New Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-show="selectedGroupItems.length!=0" ng-repeat="item in selectedGroupItems">
+                                               <td>{{item.TransactionId}}</td>
+                                                <td>{{item.ItemCategory}}</td>
+                                                 <td>{{ item.ItemCode}}</td>
+                                                <td>{{item.ItemName}}</td>
+                                                <td>{{ item.ItemOldPrice}}</td>
+                                                <td>{{ item.ItemNewPrice}}</td>
+                                            </tr>
+
+                                            <tr ng-show="selectedGroupItems.length==0" style="text-align:center;font-size:xx-large;color:lightgrey;font:bold 400% arial, verdana;">
+                                                <td>
+                                                    No Records Found
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+</body>
+</html>
